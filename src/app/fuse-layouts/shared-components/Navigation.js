@@ -11,7 +11,7 @@ import { isEmptyObject } from 'app/auth/store/commonMethods';
 import { useTheme } from '@mui/material/styles';
 import { setShowChangePass } from 'app/auth/store/commonData';
 import { Menus } from 'app/auth/store/constants';
-import { changeshowAddItem, changeshowAddRegister, changeshowAddUser, changeShowResetPass } from 'app/auth/store/sharedData';
+import { changeshowAddItem, changeshowAddRegister, changeshowAddModule } from 'app/auth/store/sharedData';
 
 function Navigation(props) {
   const theme = useTheme();
@@ -39,9 +39,8 @@ function Navigation(props) {
 
   function handleItemClick(item) {
     if (item && item.id == Menus.REGISTERUSER) dispatch(changeshowAddRegister(true));
-    else if (item && item.id == Menus.CREATEUSER) dispatch(changeshowAddUser(true));
     else if (item && item.id == Menus.CREATEITEM) dispatch(changeshowAddItem(true));
-    else if (item && item.id == Menus.CHANGEPASS) dispatch(changeShowResetPass(true));
+    else if (item && item.id == Menus.CREATMODULE) dispatch(changeshowAddModule(true));
     if (mdDown) {
       dispatch(navbarCloseMobile());
     }

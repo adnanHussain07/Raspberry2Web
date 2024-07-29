@@ -1,16 +1,17 @@
-import FuseAuthorization from '@fuse/core/FuseAuthorization';
-import FuseLayout from '@fuse/core/FuseLayout';
-import FuseTheme from '@fuse/core/FuseTheme';
-import history from '@history';
-import { Router } from 'react-router-dom';
-import { SnackbarProvider } from 'notistack';
-import { useSelector } from 'react-redux';
-import rtlPlugin from 'stylis-plugin-rtl';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
-import { selectCurrLangDir } from 'app/store/i18nSlice';
-import withAppProviders from './withAppProviders';
-import { Auth } from './auth';
+import FuseAuthorization from '@fuse/core/FuseAuthorization'
+import FuseLayout from '@fuse/core/FuseLayout'
+import FuseTheme from '@fuse/core/FuseTheme'
+import history from '@history'
+import { Router } from 'react-router-dom'
+import { SnackbarProvider } from 'notistack'
+import { useSelector } from 'react-redux'
+import rtlPlugin from 'stylis-plugin-rtl'
+import createCache from '@emotion/cache'
+import { CacheProvider } from '@emotion/react'
+import { selectCurrLangDir } from 'app/store/i18nSlice'
+import withAppProviders from './withAppProviders'
+import { Auth } from './auth'
+import { useEffect } from 'react'
 
 // import axios from 'axios';
 /**
@@ -24,17 +25,17 @@ const emotionCacheOptions = {
   rtl: {
     key: 'muirtl',
     stylisPlugins: [rtlPlugin],
-    prepend: true,
+    prepend: true
   },
   ltr: {
     key: 'muiltr',
     stylisPlugins: [],
-    prepend: true,
-  },
-};
+    prepend: true
+  }
+}
 
 const App = () => {
-  const langDirection = useSelector(selectCurrLangDir);
+  const langDirection = useSelector(selectCurrLangDir)
 
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>
@@ -46,10 +47,11 @@ const App = () => {
                 maxSnack={5}
                 anchorOrigin={{
                   vertical: 'bottom',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 classes={{
-                  containerRoot: 'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99',
+                  containerRoot:
+                    'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99'
                 }}
               >
                 <FuseLayout />
@@ -59,7 +61,7 @@ const App = () => {
         </Router>
       </Auth>
     </CacheProvider>
-  );
-};
+  )
+}
 
-export default withAppProviders(App)();
+export default withAppProviders(App)()

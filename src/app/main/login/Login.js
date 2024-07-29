@@ -50,7 +50,7 @@ function Login() {
             >
               <div className="flex items-center mb-48">
                 <img
-                  className="logo-icon w-1/2 mx-4"
+                  className="logo-icon w-1/2 mx-14"
                   src="assets/images/logos/fuse.png"
                   // src="assets/images/logos/fuse.svg"
                   alt="logo"

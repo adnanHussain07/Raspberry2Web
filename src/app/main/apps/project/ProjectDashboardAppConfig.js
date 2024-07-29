@@ -24,7 +24,7 @@ const ProjectDashboardAppConfig = {
   },
   routes: [
     {
-      path: '/apps/dashboards/jic',
+      path: '/apps/dashboards/sgp',
       component: lazy(() => import('./ProjectDashboardApp')),
     },
   ],

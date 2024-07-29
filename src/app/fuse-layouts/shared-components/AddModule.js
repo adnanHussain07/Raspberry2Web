@@ -20,15 +20,15 @@ import ds from '../../services/DataService'
 import { useTheme } from '@mui/material/styles'
 import {
   changeItemPagination,
-  changeshowAddItem
+  changeshowAddModule
 } from 'app/auth/store/sharedData'
 import { StoreLabs } from 'app/auth/store/constants'
 
-function AddItem (props) {
+function AddModule (props) {
   const { isEdit, idd, handleEdit } = props
   const dispatch = useDispatch()
   const loader = useSelector(({ auth }) => auth.loaders.registerLoader)
-  const showAddItem = useSelector(({ auth }) => auth.shared.showAddItem)
+  const showAddModule = useSelector(({ auth }) => auth.shared.showAddModule)
   const itemPagination = useSelector(({ auth }) => auth.shared.itemPagination)
   const language = useSelector(({ i18n }) =>
     i18n.language ? i18n.language : ''
@@ -39,6 +39,7 @@ function AddItem (props) {
   const [getItemID, setItemID] = useState('')
   const [getStoreNbr, setStoreNbr] = useState('0')
   const [getSerNo, setSerNo] = useState('')
+  const [getCompany, setCompany] = useState('')
 
   async function postItem (body) {
     const getReq = ds.addItemService(body)
@@ -64,7 +65,7 @@ function AddItem (props) {
             })
           )
           setToInitial()
-          dispatch(changeshowAddItem(false))
+          dispatch(changeshowAddModule(false))
         }
       })
       .catch(e => {
@@ -122,7 +123,7 @@ function AddItem (props) {
         classes={{
           paper: 'm-24 rounded-8'
         }}
-        open={showAddItem}
+        open={showAddModule}
         // onClose={handleCloseProfile}
         aria-labelledby='form-dialog-title'
         fullWidth
@@ -130,7 +131,7 @@ function AddItem (props) {
       >
         <AppBar position='static' elevation={1}>
           <DialogTitle id='form-dialog-title'>
-            {i18next.t(`navigation:ADDNEWITEMS`)}
+            {i18next.t(`navigation:ADDNEWMODULE`)}
           </DialogTitle>
         </AppBar>
         <DialogContent>
@@ -153,9 +154,43 @@ function AddItem (props) {
                   <div className='min-w-48 pt-20'>
                     <Icon color='action'>addchart</Icon>
                   </div>
+                  <FormControl
+                    variant='outlined'
+                    // className={classes.formControl}
+                    style={{ width: '100%' }}
+                  >
+                    <InputLabel id='demo-simple-select-outlined-label'>
+                      {i18next.t(`navigation:SELCOMPANY`)}
+                    </InputLabel>
+                    <Select
+                      className='mb-24'
+                      labelId='demo-simple-select-outlined-label'
+                      id='demo-simple-select-outlined'
+                      label={i18next.t(`navigation:SELCOMPANY`)}
+                      value={getCompany}
+                      required={true}
+                      onChange={e => {
+                        setCompany(e.target.value)
+                      }}
+                      // disabled={isEdit}
+                    >
+                      <MenuItem key={0} value={'admin'}>
+                        Company A
+                      </MenuItem>
+                      <MenuItem key={1} value={'user'}>
+                        Company B
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+
+                <div className='flex'>
+                  <div className='min-w-48 pt-20'>
+                    <Icon color='action'>people</Icon>
+                  </div>
                   <TextField
                     className='mb-24'
-                    label={i18next.t(`navigation:HEADNAME`)}
+                    label={i18next.t(`navigation:MODULENAME`)}
                     id='name'
                     name='name'
                     value={getItemName}
@@ -169,73 +204,24 @@ function AddItem (props) {
                   />
                 </div>
 
-                {/* <div className="flex">
-										<div className="min-w-48 pt-20">
-											<Icon color="action">account_circle</Icon>
-										</div>
-										<TextField
-											className="mb-24"
-											label={i18next.t(`navigation:ITEMID`)}
-											id="id"
-											name="id"
-											value={getItemID}
-											onChange={(e) => {
-												setItemID(e.target.value)
-											}}
-											// maxLength="30"
-											variant="outlined"
-											required
-											fullWidth
-										/>
-									</div>
-
-									<div className="flex">
-										<div className="min-w-48 pt-20">
-											<Icon color="action">account_circle</Icon>
-										</div>
-										<TextField
-											className="mb-24"
-											label={i18next.t(`navigation:SERNO`)}
-											id="id"
-											name="id"
-											value={getSerNo}
-											onChange={(e) => {
-												setSerNo(e.target.value)
-											}}
-											// maxLength="30"
-											variant="outlined"
-											required
-											fullWidth
-										/>
-									</div>
-
-									<div className="flex">
-										<div className="min-w-48 pt-20">
-											<Icon color="action">account_circle</Icon>
-										</div>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={getStoreNbr}
-											label={i18next.t(`navigation:SELECTSTORE`)}
-											onChange={(e) => setStoreNbr(e.target.value)}
-											// size="small"
-											fullWidth
-										>
-											<MenuItem autoFocus={false} value="0">{i18next.t(`navigation:SELECTSTORE`)}</MenuItem>
-											{StoreLabs.map((a, i) => {
-												return (
-													<MenuItem
-														key={i}
-														autoFocus={false}
-														value={a.id}
-													>
-														{a.name}
-													</MenuItem>
-												)
-											})}
-										</Select>
-									</div> */}
+                <div className='flex'>
+                  <div className='min-w-48 pt-20'>
+                    <Icon color='action'>account_circle</Icon>
+                  </div>
+                  <TextField
+                    className='mb-24'
+                    label={i18next.t(`navigation:HEADNAME`)}
+                    id='name'
+                    name='name'
+                    value={getItemName}
+                    onChange={e => {
+                      setItemName(e.target.value)
+                    }}
+                    // maxLength="30"
+                    variant='outlined'
+                    fullWidth
+                  />
+                </div>
               </div>
             </>
           )}
@@ -248,7 +234,7 @@ function AddItem (props) {
             style={{ backgroundColor: 'rgb(134 141 134)' }}
             onClick={() => {
               setToInitial()
-              dispatch(changeshowAddItem(false))
+              dispatch(changeshowAddModule(false))
             }}
           >
             {i18next.t(`navigation:CLOSE`)}
@@ -267,4 +253,4 @@ function AddItem (props) {
   )
 }
 
-export default AddItem
+export default AddModule

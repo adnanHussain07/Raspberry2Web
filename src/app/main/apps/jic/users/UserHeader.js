@@ -20,7 +20,7 @@ import i18next from 'i18next';
 import ds from 'app/services/DataService';
 import { setProductsLoader, setUsersListLoader } from 'app/auth/store/loadersSlice';
 import { setProductsData, setProductsTotalCount } from 'app/auth/store/commonData';
-import { getLogs, getProducts, getUsers } from 'app/auth/store/commonServices';
+import { getUsers } from 'app/auth/store/commonServices';
 import { isEmptyObject } from 'app/auth/store/commonMethods';
 import moment from 'moment';
 import Tooltip from '@mui/material/Tooltip';

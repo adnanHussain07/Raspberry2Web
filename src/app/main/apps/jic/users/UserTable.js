@@ -130,14 +130,11 @@ function UserTable(props) {
                         {n.updatedAt ? moment(n.updatedAt).format(DateTimeFormat) : "--"}
                       </TableCell>
                       <TableCell className="p-4 md:p-16" component="th" scope="row" align='center'>
-                        {dispatch(checkPermission(Permissions.DELETEUSER)) && dispatch(checkPermission(Permissions.DELETEUSER)) == "allowed"
-                          && (
-                            <IconButton onClick={() => handleClickOpen(n)} color="inherit">
+                      <IconButton onClick={() => handleClickOpen(n)} color="inherit">
                               <Icon color="inherit">
                                 delete
                               </Icon>
                             </IconButton>
-                          )}
                       </TableCell>
                     </TableRow>
                   );

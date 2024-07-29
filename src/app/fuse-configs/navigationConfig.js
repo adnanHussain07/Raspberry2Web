@@ -1,14 +1,14 @@
-import { authRoles } from 'app/auth';
-import { Menus } from 'app/auth/store/constants';
-import i18next from 'i18next';
+import { authRoles } from 'app/auth'
+import { Menus, Roles } from 'app/auth/store/constants'
+import i18next from 'i18next'
 
-import ar from './navigation-i18n/ar';
-import en from './navigation-i18n/en';
-import tr from './navigation-i18n/tr';
+import ar from './navigation-i18n/ar'
+import en from './navigation-i18n/en'
+import tr from './navigation-i18n/tr'
 
-i18next.addResourceBundle('en', 'navigation', en);
-i18next.addResourceBundle('tr', 'navigation', tr);
-i18next.addResourceBundle('ar', 'navigation', ar);
+i18next.addResourceBundle('en', 'navigation', en)
+i18next.addResourceBundle('tr', 'navigation', tr)
+i18next.addResourceBundle('ar', 'navigation', ar)
 
 const navigationConfig = [
   {
@@ -24,23 +24,23 @@ const navigationConfig = [
         translate: 'DASHH',
         type: 'item',
         icon: 'dashboard',
-        url: '/apps/dashboards/jic',
+        url: '/apps/dashboards/sgp'
       },
-      {
-        id: Menus.ITEMS,
-        title: 'Items',
-        translate: 'ITEMS',
-        type: 'item',
-        icon: 'developer_board',
-        url: '/apps/jic/items',
-      },
+      // {
+      //   id: Menus.ITEMS,
+      //   title: 'Items',
+      //   translate: 'ITEMS',
+      //   type: 'item',
+      //   icon: 'developer_board',
+      //   url: '/apps/jic/items',
+      // },
       {
         id: Menus.LOGS,
         title: 'Logs',
         translate: 'LOGS',
         type: 'item',
         icon: 'history',
-        url: '/apps/jic/logs',
+        url: '/apps/jic/logs'
       },
       {
         id: Menus.USERS,
@@ -48,7 +48,7 @@ const navigationConfig = [
         translate: 'USERS',
         type: 'item',
         icon: 'people',
-        url: '/apps/jic/users',
+        url: '/apps/jic/users'
       },
       {
         id: Menus.ADD,
@@ -61,27 +61,38 @@ const navigationConfig = [
             id: Menus.REGISTERUSER,
             title: 'Register User',
             translate: 'REGISTERUSER',
-            icon: 'login',
-            type: 'item',
-            url: '#',
-          },
-          {
-            id: Menus.CREATEUSER,
-            title: 'Add User',
-            translate: 'ADDUSERS',
+            // auth: Roles.admin,
             icon: 'account_circle',
             type: 'item',
-            url: '#',
+            url: '#'
           },
+          // {
+          //   id: Menus.CREATEUSER,
+          //   title: 'Add User',
+          //   translate: 'ADDUSERS',
+          //   icon: 'account_circle',
+          //   type: 'item',
+          //   url: '#'
+          // },
           {
             id: Menus.CREATEITEM,
-            title: 'Add Item',
+            title: 'Add Company',
             translate: 'ADDITEMS',
+            // auth: Roles.superadmin,
             icon: 'addchart',
             type: 'item',
-            url: '#',
+            url: '#'
           },
-        ],
+          {
+            id: Menus.CREATMODULE,
+            title: 'Add Module',
+            translate: 'ADDMODULE',
+            // auth: Roles.superadmin,
+            icon: 'login',
+            type: 'item',
+            url: '#'
+          }
+        ]
         // {
         //   id: Menus.SETTING,
         //   title: 'Settings',
@@ -111,15 +122,15 @@ const navigationConfig = [
         //       url: '#',
         //     },
         //   ],
-      },
-      {
-        id: Menus.CHANGEPASS,
-        title: 'Change Password',
-        translate: 'CHANGEPASS',
-        type: 'item',
-        icon: 'lock',
-        url: '#',
-      },
+      }
+      // {
+      //   id: Menus.CHANGEPASS,
+      //   title: 'Change Password',
+      //   translate: 'CHANGEPASS',
+      //   type: 'item',
+      //   icon: 'lock',
+      //   url: '#'
+      // }
       //////////////////////////////////////////////OLD
       // {
       //   id: Menus.WEIGHT,
@@ -183,14 +194,8 @@ const navigationConfig = [
       //     },
       //   ],
       // },
-    ],
-  },
-
-
-
-
-
-
+    ]
+  }
 
   // {
   //   id: 'applications',
@@ -966,6 +971,6 @@ const navigationConfig = [
   //     },
   //   ],
   // },
-];
+]
 
-export default navigationConfig;
+export default navigationConfig

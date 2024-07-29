@@ -87,7 +87,7 @@ function LogHeader(props) {
     const itemName = getSearchName && getSearchName != '' ? `&name=${getSearchName}` : "";
     const serNo = getSerialNo && getSerialNo != '' ? `&SerialNo=${getSerialNo}` : "";
     const body = `?pageNo=${logsPagination.pageNo}&count=${logsPagination.pageSize}${renteeid + rentee + itemid + itemName + serNo}`;
-    dispatch(getLogs(body));
+    // dispatch(getLogs(body));
   }
 
   const handleChangeFrom = (newValue) => {
@@ -335,8 +335,7 @@ function LogHeader(props) {
               >
                 {i18next.t(`navigation:GO`)}
               </Button>
-              {dispatch(checkPermission(Permissions.EXPORT)) && dispatch(checkPermission(Permissions.EXPORT)) == "allowed" && (
-                <Button
+              <Button
                   className="whitespace-nowrap ml-6"
                   variant="contained"
                   color="info"
@@ -345,7 +344,6 @@ function LogHeader(props) {
                 >
                   {i18next.t(`navigation:EXPORT`)}
                 </Button>
-              )}
             </motion.div>
           </div>
         </div>
@@ -605,8 +603,7 @@ function LogHeader(props) {
           >
             {i18next.t(`navigation:GO`)}
           </Button>
-          {dispatch(checkPermission(Permissions.EXPORT)) && dispatch(checkPermission(Permissions.EXPORT)) == "allowed" && (
-            <Button
+          <Button
               className="whitespace-nowrap ml-6"
               variant="contained"
               color="info"
@@ -615,7 +612,6 @@ function LogHeader(props) {
             >
               {i18next.t(`navigation:EXPORT`)}
             </Button>
-          )}
         </motion.div>
       </div>
   );

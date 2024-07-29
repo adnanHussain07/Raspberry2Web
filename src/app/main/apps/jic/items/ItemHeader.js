@@ -338,8 +338,7 @@ function DriverHeader(props) {
               >
                 {i18next.t(`navigation:GO`)}
               </Button>
-              {dispatch(checkPermission(Permissions.EXPORT)) && dispatch(checkPermission(Permissions.EXPORT)) == "allowed" && (
-                <Button
+              <Button
                   className="whitespace-nowrap ml-6"
                   variant="contained"
                   color="info"
@@ -348,7 +347,6 @@ function DriverHeader(props) {
                 >
                   {i18next.t(`navigation:EXPORT`)}
                 </Button>
-              )}
             </motion.div>
           </div>
         </div>
@@ -618,8 +616,7 @@ function DriverHeader(props) {
           >
             {i18next.t(`navigation:GO`)}
           </Button>
-          {dispatch(checkPermission(Permissions.EXPORT)) && dispatch(checkPermission(Permissions.EXPORT)) == "allowed" && (
-            <Button
+          <Button
               className="whitespace-nowrap ml-6"
               variant="contained"
               color="info"
@@ -628,7 +625,6 @@ function DriverHeader(props) {
             >
               {i18next.t(`navigation:EXPORT`)}
             </Button>
-          )}
         </motion.div>
       </div>
   );

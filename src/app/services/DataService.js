@@ -21,8 +21,12 @@ const openHeader = {
 };
 
 // *** URIs ***
-const GATEWAY_LOGIN = '/auth/login';
-const GATEWAY_REGISTER = '/auth/register';
+const GATEWAY_LOGIN = '/user/login';
+const GATEWAY_REGISTER = '/user/register';
+const GATEWAY_ALL_COMPANIES = '/company/getallmodules';
+const GATEWAY_COMPANY_MODULE = '/company/getmodulebycompany';
+
+
 const GATEWAY_CREATEUSER = '/user/create';
 const GATEWAY_GETREGUSER = '/auth/showregisterusers';
 const GATEWAY_CREATEITEM = '/item/create';
@@ -161,10 +165,9 @@ function addItemService(body) {
   });
 }
 
-function getAllProductsService(body) {
+function getAllCompaniesService(body) {
   return new Promise((resolve, reject) => {
-    const queryString = body ? body : "";
-    _getCustom(GATEWAY_GETITEM + queryString)
+    _getCustom(GATEWAY_ALL_COMPANIES)
       .then((res) => {
         resolve(res.data);
       })
@@ -186,10 +189,10 @@ function logoutService() {
   });
 }
 
-function getAllLogsService(body) {
+function getCompanyModuleService(body) {
   return new Promise((resolve, reject) => {
     const queryString = body ? body : "";
-    _getCustom(GATEWAY_LOGS + queryString)
+    _getCustom(GATEWAY_COMPANY_MODULE + queryString)
       .then((res) => {
         resolve(res.data);
       })
@@ -319,14 +322,14 @@ function spreadSheetService(body) {
 }
 
 const dataServiceMethods = {
-  getAllProductsService,
+  getAllCompaniesService,
+
   loginService,
   registerService,
   addUserService,
   addItemService,
   logoutService,
   updatePassService,
-  getAllLogsService,
   getAllUsersService,
   deleteItemService,
   deleteUserService,

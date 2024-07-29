@@ -22,6 +22,7 @@ import ResetPasswordDialog from './ResetPasswordDialog';
 import RegisterUser from './RegisterUser';
 import AddItem from './AddItem';
 import AddUser from './AddUser';
+import AddModule from './AddModule';
 
 function UserMenu(props) {
   const dispatch = useDispatch();
@@ -118,6 +119,7 @@ function UserMenu(props) {
       <AddItem />
       <AddUser />
       <ResetPasswordDialog />
+      <AddModule />
       <Button
         className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6"
         onClick={userMenuClick}
@@ -173,12 +175,6 @@ function UserMenu(props) {
             </ListItemIcon>
             <ListItemText primary={i18next.t(`navigation:LOGOUT`)} />
           </MenuItem>
-          {/* <MenuItem onClick={handleProfileChange} role="button">
-            <ListItemIcon className="min-w-40">
-              <Icon>person_add</Icon>
-            </ListItemIcon>
-            <ListItemText primary={i18next.t(`navigation:ADDUSER`)} />
-          </MenuItem> */}
         </>
       </Popover>
     </>
