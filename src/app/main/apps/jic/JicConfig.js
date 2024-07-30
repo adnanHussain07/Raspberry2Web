@@ -29,11 +29,11 @@ const JicConfig = {
       component: lazy(() => import('./items/Items')),
     },
     {
-      path: '/apps/jic/logs',
+      path: '/apps/sgp/logs',
       component: lazy(() => import('./logs/Logs')),
     },
     {
-      path: '/apps/jic/users',
+      path: '/apps/sgp/users',
       component: lazy(() => import('./users/Users')),
     },
   ],

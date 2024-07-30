@@ -1,108 +1,122 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Icon from '@mui/material/Icon';
-import Input from '@mui/material/Input';
-import Paper from '@mui/material/Paper';
-import { ThemeProvider } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import MobileDatePicker from '@mui/lab/MobileDatePicker';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { motion } from 'framer-motion';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectMainTheme } from 'app/store/fuse/settingsSlice';
-import { setProductsSearchText } from '../store/productsSlice';
-import i18next from 'i18next';
-import ds from 'app/services/DataService';
-import { setProductsLoader } from 'app/auth/store/loadersSlice';
-import { setProductsData, setProductsTotalCount } from 'app/auth/store/commonData';
-import { exportService, getLogs, getProducts } from 'app/auth/store/commonServices';
-import { isEmptyObject } from 'app/auth/store/commonMethods';
-import moment from 'moment';
-import Tooltip from '@mui/material/Tooltip';
-import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import { changeItemStatus, changeLogItemName, changeStoreNbr } from 'app/auth/store/sharedData';
-import { checkPermission } from 'app/auth/store/loginSlice';
-import { Permissions } from 'app/auth/store/constants';
+import * as React from 'react'
+import Button from '@mui/material/Button'
+import Icon from '@mui/material/Icon'
+import Input from '@mui/material/Input'
+import Paper from '@mui/material/Paper'
+import { ThemeProvider } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import MobileDatePicker from '@mui/lab/MobileDatePicker'
+import TextField from '@mui/material/TextField'
+import Box from '@mui/material/Box'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import { motion } from 'framer-motion'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectMainTheme } from 'app/store/fuse/settingsSlice'
+import { setProductsSearchText } from '../store/productsSlice'
+import i18next from 'i18next'
+import ds from 'app/services/DataService'
+import { setLogsLoader, setProductsLoader } from 'app/auth/store/loadersSlice'
+import {
+  setProductsData,
+  setProductsTotalCount
+} from 'app/auth/store/commonData'
+import {
+  exportService,
+  getLogs,
+  getProducts
+} from 'app/auth/store/commonServices'
+import { isEmptyObject } from 'app/auth/store/commonMethods'
+import moment from 'moment'
+import Tooltip from '@mui/material/Tooltip'
+import FuseScrollbars from '@fuse/core/FuseScrollbars'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
+import {
+  changeItemStatus,
+  changeLogItemName,
+  changeStoreNbr
+} from 'app/auth/store/sharedData'
+import { checkPermission } from 'app/auth/store/loginSlice'
+import { Permissions } from 'app/auth/store/constants'
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-};
+  show: { opacity: 1, y: 0 }
+}
 
-function LogHeader(props) {
-  const theme = useTheme();
-  const dispatch = useDispatch();
-  const mainTheme = useSelector(selectMainTheme);
-  const logsPagination = useSelector(({ auth }) => auth.shared.logsPagination);
-  const itemStatus = useSelector(({ auth }) => auth.shared.itemStatus);
-  const storeNbr = useSelector(({ auth }) => auth.shared.storeNbr);
-  const itemRentee = useSelector(({ auth }) => auth.shared.itemRentee);
-  const itemName = useSelector(({ auth }) => auth.shared.itemName);
-  const itemID = useSelector(({ auth }) => auth.shared.itemID);
-  const getSearchName = useSelector(({ auth }) => auth.shared.logItemName);
+function LogHeader (props) {
+  const { id } = props
+  const theme = useTheme()
+  const dispatch = useDispatch()
+  const mainTheme = useSelector(selectMainTheme)
+  const logsPagination = useSelector(({ auth }) => auth.shared.logsPagination)
+  const itemStatus = useSelector(({ auth }) => auth.shared.itemStatus)
+  const storeNbr = useSelector(({ auth }) => auth.shared.storeNbr)
+  const itemRentee = useSelector(({ auth }) => auth.shared.itemRentee)
+  const itemName = useSelector(({ auth }) => auth.shared.itemName)
+  const itemID = useSelector(({ auth }) => auth.shared.itemID)
+  const getSearchName = useSelector(({ auth }) => auth.shared.logItemName)
 
-  const mdDown = useMediaQuery(theme.breakpoints.down('lg'));
+  const mdDown = useMediaQuery(theme.breakpoints.down('lg'))
 
-  const [valueFrom, setValueFrom] = React.useState(moment().subtract(6, 'months'));
-  const [valueTo, setValueTo] = React.useState(moment());
-  const [getSearchRentee, setSearchRentee] = React.useState("");
-  const [getSearchID, setSearchID] = React.useState("");
-  const [getSerialNo, setSerialNo] = React.useState("");
-  const [renteeID, setRenteeID] = React.useState("");
+  const [valueFrom, setValueFrom] = React.useState(
+    moment().subtract(6, 'months')
+  )
+  const [valueTo, setValueTo] = React.useState(moment())
+  const [getSearchRentee, setSearchRentee] = React.useState('')
+  const [getSearchID, setSearchID] = React.useState('')
+  const [getSerialNo, setSerialNo] = React.useState('')
+  const [renteeID, setRenteeID] = React.useState('')
 
   React.useEffect(() => {
-    let mounted = true;
+    let mounted = true
     if (mounted) {
-      callGo();
+      debugger
+      callGo()
     }
 
-    return () => mounted = false;
-  }, []);
+    return () => (mounted = false)
+  }, [])
 
   React.useEffect(() => {
-    let mounted = true;
+    let mounted = true
     if (mounted) {
-      if (logsPagination && !isEmptyObject(logsPagination) && logsPagination.pageNo && logsPagination.pageSize) {
-        callGo();
+      if (
+        logsPagination &&
+        !isEmptyObject(logsPagination) &&
+        logsPagination.pageNo &&
+        logsPagination.pageSize
+      ) {
+        callGo()
       }
     }
 
-    return () => mounted = false;
-  }, [logsPagination]);
+    return () => (mounted = false)
+  }, [logsPagination])
 
-  function callGo() {
-    dispatch(setProductsLoader(true));
-    // const status = itemStatus && itemStatus != '0' ? `&status=${itemStatus}` : "";
-    const renteeid = renteeID && renteeID != '0' ? `&rentee_id=${renteeID}` : "";
-    // const store = storeNbr && storeNbr != '0' ? `&present_storenumber=${storeNbr}` : "";
-    const rentee = getSearchRentee && getSearchRentee != '' ? `&rentee=${getSearchRentee}` : "";
-    const itemid = getSearchID && getSearchID != '' ? `&itemid=${getSearchID}` : "";
-    const itemName = getSearchName && getSearchName != '' ? `&name=${getSearchName}` : "";
-    const serNo = getSerialNo && getSerialNo != '' ? `&SerialNo=${getSerialNo}` : "";
-    const body = `?pageNo=${logsPagination.pageNo}&count=${logsPagination.pageSize}${renteeid + rentee + itemid + itemName + serNo}`;
-    // dispatch(getLogs(body));
+  function callGo () {
+    const body = `?modules=${id}&pageNo=${logsPagination.pageNo}&count=${logsPagination.pageSize}`
+    dispatch(getLogs(body))
   }
 
-  const handleChangeFrom = (newValue) => {
-    setValueFrom(newValue);
-  };
-  const handleChangeTo = (newValue) => {
-    setValueTo(newValue);
-  };
+  const handleChangeFrom = newValue => {
+    setValueFrom(newValue)
+  }
+  const handleChangeTo = newValue => {
+    setValueTo(newValue)
+  }
 
-  function exportSheet() {
-    const renteeid = renteeID && renteeID != '0' ? renteeID : false;
-    const rentee = getSearchRentee && getSearchRentee != '' ? getSearchRentee : false;
-    const itemid = getSearchID && getSearchID != '' ? getSearchID : false;
-    const itemName = getSearchName && getSearchName != '' ? getSearchName : false;
-    const serNo = getSerialNo && getSerialNo != '' ? getSerialNo : false;
+  function exportSheet () {
+    const renteeid = renteeID && renteeID != '0' ? renteeID : false
+    const rentee =
+      getSearchRentee && getSearchRentee != '' ? getSearchRentee : false
+    const itemid = getSearchID && getSearchID != '' ? getSearchID : false
+    const itemName =
+      getSearchName && getSearchName != '' ? getSearchName : false
+    const serNo = getSerialNo && getSerialNo != '' ? getSerialNo : false
     const body = {
       SerialNo: serNo,
       status: false,
@@ -111,21 +125,21 @@ function LogHeader(props) {
       name: itemName,
       itemid: itemid,
       rentee_id: renteeid,
-      type: "logs",
-    };
-    dispatch(exportService(body));
+      type: 'logs'
+    }
+    dispatch(exportService(body))
   }
 
-  return (
-    mdDown ? <FuseScrollbars className="">
-      <motion.div variants={item} className="widget flex w-full">
-        <div className="w-full flex flex-col justify-between">
-          <div className="">
+  return false ? (
+    <FuseScrollbars className=''>
+      <motion.div variants={item} className='widget flex w-full'>
+        <div className='w-full flex flex-col justify-between'>
+          <div className=''>
             <Icon
               component={motion.span}
               initial={{ scale: 0 }}
               animate={{ scale: 1, transition: { delay: 0.2 } }}
-              className="text-15 md:text-18"
+              className='text-15 md:text-18'
             >
               history
             </Icon>
@@ -134,7 +148,7 @@ function LogHeader(props) {
               initial={{ x: -20 }}
               animate={{ x: 0, transition: { delay: 0.2 } }}
               delay={300}
-              className="text-12 md:text-24 mx-2 font-semibold"
+              className='text-12 md:text-24 mx-2 font-semibold'
             >
               {i18next.t(`navigation:HISTORY`)}
             </Typography>
@@ -185,7 +199,7 @@ function LogHeader(props) {
               </Box>
             </motion.div>
           </div> */}
-          <div className="flex px-64 mt-8">
+          <div className='flex px-64 mt-8'>
             <ThemeProvider theme={mainTheme}>
               <Tooltip
                 title={i18next.t(`navigation:PRESSENTER`)}
@@ -195,23 +209,23 @@ function LogHeader(props) {
                   component={motion.div}
                   initial={{ y: -20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-                  className="flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow"
+                  className='flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow'
                 >
-                  <Icon color="action">search</Icon>
+                  <Icon color='action'>search</Icon>
                   <Input
-                    placeholder="Search Item Name"
-                    className="flex flex-1 mx-8"
+                    placeholder='Search Item Name'
+                    className='flex flex-1 mx-8'
                     disableUnderline
                     fullWidth
-                    onChange={(e) => dispatch(changeLogItemName(e.target.value))}
-                    onKeyPress={(e) => {
+                    onChange={e => dispatch(changeLogItemName(e.target.value))}
+                    onKeyPress={e => {
                       if (e.key == 'Enter') {
-                        callGo();
+                        callGo()
                       }
                     }}
                     value={getSearchName}
                     inputProps={{
-                      'aria-label': 'Search',
+                      'aria-label': 'Search'
                     }}
                     size='small'
                   />
@@ -219,7 +233,7 @@ function LogHeader(props) {
               </Tooltip>
             </ThemeProvider>
           </div>
-          <div className="flex px-64 mt-8">
+          <div className='flex px-64 mt-8'>
             <ThemeProvider theme={mainTheme}>
               <Tooltip
                 title={i18next.t(`navigation:PRESSENTER`)}
@@ -229,23 +243,23 @@ function LogHeader(props) {
                   component={motion.div}
                   initial={{ y: -20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-                  className="flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow"
+                  className='flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow'
                 >
-                  <Icon color="action">search</Icon>
+                  <Icon color='action'>search</Icon>
                   <Input
-                    placeholder="Search Item ID"
-                    className="flex flex-1 mx-8"
+                    placeholder='Search Item ID'
+                    className='flex flex-1 mx-8'
                     disableUnderline
                     fullWidth
-                    onChange={(e) => setSearchID(e.target.value)}
-                    onKeyPress={(e) => {
+                    onChange={e => setSearchID(e.target.value)}
+                    onKeyPress={e => {
                       if (e.key == 'Enter') {
-                        callGo();
+                        callGo()
                       }
                     }}
                     value={getSearchID}
                     inputProps={{
-                      'aria-label': 'Search',
+                      'aria-label': 'Search'
                     }}
                     size='small'
                   />
@@ -253,7 +267,7 @@ function LogHeader(props) {
               </Tooltip>
             </ThemeProvider>
           </div>
-          <div className="flex px-64 mt-8">
+          <div className='flex px-64 mt-8'>
             <ThemeProvider theme={mainTheme}>
               <Tooltip
                 title={i18next.t(`navigation:PRESSENTER`)}
@@ -263,23 +277,23 @@ function LogHeader(props) {
                   component={motion.div}
                   initial={{ y: -20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-                  className="flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow"
+                  className='flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow'
                 >
-                  <Icon color="action">search</Icon>
+                  <Icon color='action'>search</Icon>
                   <Input
-                    placeholder="Search Rentee"
-                    className="flex flex-1 mx-8"
+                    placeholder='Search Rentee'
+                    className='flex flex-1 mx-8'
                     disableUnderline
                     fullWidth
-                    onChange={(e) => setSearchRentee(e.target.value)}
-                    onKeyPress={(e) => {
+                    onChange={e => setSearchRentee(e.target.value)}
+                    onKeyPress={e => {
                       if (e.key == 'Enter') {
-                        callGo();
+                        callGo()
                       }
                     }}
                     value={getSearchRentee}
                     inputProps={{
-                      'aria-label': 'Search',
+                      'aria-label': 'Search'
                     }}
                     size='small'
                   />
@@ -287,7 +301,7 @@ function LogHeader(props) {
               </Tooltip>
             </ThemeProvider>
           </div>
-          <div className="flex px-64 mt-8">
+          <div className='flex px-64 mt-8'>
             <ThemeProvider theme={mainTheme}>
               <Tooltip
                 title={i18next.t(`navigation:PRESSENTER`)}
@@ -297,23 +311,23 @@ function LogHeader(props) {
                   component={motion.div}
                   initial={{ y: -20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-                  className="flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow"
+                  className='flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow'
                 >
-                  <Icon color="action">search</Icon>
+                  <Icon color='action'>search</Icon>
                   <Input
-                    placeholder="Search Rentee ID"
-                    className="flex flex-1 mx-8"
+                    placeholder='Search Rentee ID'
+                    className='flex flex-1 mx-8'
                     disableUnderline
                     fullWidth
-                    onChange={(e) => setRenteeID(e.target.value)}
-                    onKeyPress={(e) => {
+                    onChange={e => setRenteeID(e.target.value)}
+                    onKeyPress={e => {
                       if (e.key == 'Enter') {
-                        callGo();
+                        callGo()
                       }
                     }}
                     value={renteeID}
                     inputProps={{
-                      'aria-label': 'Search',
+                      'aria-label': 'Search'
                     }}
                     size='small'
                   />
@@ -321,67 +335,62 @@ function LogHeader(props) {
               </Tooltip>
             </ThemeProvider>
           </div>
-          <div className="text-right">
+          <div className='text-right'>
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
             >
               <Button
-                className="whitespace-nowrap"
-                variant="contained"
-                color="secondary"
+                className='whitespace-nowrap'
+                variant='contained'
+                color='secondary'
                 size='small'
                 onClick={callGo}
               >
                 {i18next.t(`navigation:GO`)}
               </Button>
               <Button
-                  className="whitespace-nowrap ml-6"
-                  variant="contained"
-                  color="info"
-                  size='small'
-                  onClick={exportSheet}
-                >
-                  {i18next.t(`navigation:EXPORT`)}
-                </Button>
+                className='whitespace-nowrap ml-6'
+                variant='contained'
+                color='info'
+                size='small'
+                onClick={exportSheet}
+              >
+                {i18next.t(`navigation:EXPORT`)}
+              </Button>
             </motion.div>
           </div>
         </div>
       </motion.div>
     </FuseScrollbars>
-
-      :
-
-
-
-
-      <div className="flex flex-1 w-full items-center justify-between">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <div className="flex items-center">
-            <Icon
+  ) : (
+    <div className='flex flex-1 w-full items-center justify-between'>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <div className='flex items-center'>
+          <Icon
+            component={motion.span}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1, transition: { delay: 0.2 } }}
+            className='text-54 md:text-72'
+          >
+            history
+          </Icon>
+          <div className='flex flex-col items-center sm:items-start mb-16 sm:mb-0'>
+            <Typography
               component={motion.span}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1, transition: { delay: 0.2 } }}
-              className="text-54 md:text-72"
+              initial={{ x: -20 }}
+              animate={{ x: 0, transition: { delay: 0.2 } }}
+              delay={300}
+              className='text-16 md:text-24 mx-12 font-semibold'
             >
-              history
-            </Icon>
-            <div className="flex flex-col items-center sm:items-start mb-16 sm:mb-0">
-              <Typography
-                component={motion.span}
-                initial={{ x: -20 }}
-                animate={{ x: 0, transition: { delay: 0.2 } }}
-                delay={300}
-                className="text-16 md:text-24 mx-12 font-semibold"
-              >
-                {i18next.t(`navigation:HISTORY`)}
-              </Typography>
-            </div>
+              Logs For {id}
+            </Typography>
           </div>
-        </motion.div>
+        </div>
+      </motion.div>
 
-        <div className="flex flex-1 items-center justify-center px-12">
-          {/* <div className='mx-8'>
+      <div className='flex flex-1 items-center justify-center px-12'>
+        {/* <div className='mx-8'>
             <motion.div initial={{ x: -20 }} animate={{ x: 0, transition: { delay: 0.3 } }}>
               <Box className="mx-4 mt-8">
                 <FormControl fullWidth>
@@ -404,7 +413,7 @@ function LogHeader(props) {
               </Box>
             </motion.div>
           </div> */}
-          {/* <div className='mx-8'>
+        {/* <div className='mx-8'>
             <motion.div initial={{ x: -20 }} animate={{ x: 0, transition: { delay: 0.3 } }}>
               <Box className="mx-4 mt-8">
                 <FormControl fullWidth>
@@ -429,192 +438,179 @@ function LogHeader(props) {
               </Box>
             </motion.div>
           </div> */}
-          <ThemeProvider theme={mainTheme}>
-            <Tooltip
-              title={i18next.t(`navigation:PRESSENTER`)}
-              placement={'top'}
+
+
+        {/* <ThemeProvider theme={mainTheme}>
+          <Tooltip title={i18next.t(`navigation:PRESSENTER`)} placement={'top'}>
+            <Paper
+              component={motion.div}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
+              className='flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow mx-8'
             >
-              <Paper
-                component={motion.div}
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-                className="flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow mx-8"
-              >
-                <Icon color="action">search</Icon>
-                <Input
-                  placeholder="Search Item Name"
-                  className="flex flex-1 mx-8"
-                  disableUnderline
-                  fullWidth
-                  onChange={(e) => dispatch(changeLogItemName(e.target.value))}
-                  onKeyPress={(e) => {
-                    if (e.key == 'Enter') {
-                      callGo();
-                    }
-                  }}
-                  value={getSearchName}
-                  // inputProps={{
-                  //   'aria-label': 'Search',
-                  // }}
-                  size='small'
-                />
-              </Paper>
-            </Tooltip>
-          </ThemeProvider>
-          <ThemeProvider theme={mainTheme}>
-            <Tooltip
-              title={i18next.t(`navigation:PRESSENTER`)}
-              placement={'top'}
+              <Icon color='action'>search</Icon>
+              <Input
+                placeholder='Search Item Name'
+                className='flex flex-1 mx-8'
+                disableUnderline
+                fullWidth
+                onChange={e => dispatch(changeLogItemName(e.target.value))}
+                onKeyPress={e => {
+                  if (e.key == 'Enter') {
+                    callGo()
+                  }
+                }}
+                value={getSearchName}
+                // inputProps={{
+                //   'aria-label': 'Search',
+                // }}
+                size='small'
+              />
+            </Paper>
+          </Tooltip>
+        </ThemeProvider>
+        <ThemeProvider theme={mainTheme}>
+          <Tooltip title={i18next.t(`navigation:PRESSENTER`)} placement={'top'}>
+            <Paper
+              component={motion.div}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
+              className='flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow  mx-8'
             >
-              <Paper
-                component={motion.div}
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-                className="flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow  mx-8"
-              >
-                <Icon color="action">search</Icon>
-                <Input
-                  placeholder="Search Item ID"
-                  className="flex flex-1 mx-8"
-                  disableUnderline
-                  fullWidth
-                  onChange={(e) => setSearchID(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key == 'Enter') {
-                      callGo();
-                    }
-                  }}
-                  value={getSearchID}
-                  inputProps={{
-                    'aria-label': 'Search',
-                  }}
-                  size='small'
-                />
-              </Paper>
-            </Tooltip>
-          </ThemeProvider>
-          <ThemeProvider theme={mainTheme}>
-            <Tooltip
-              title={i18next.t(`navigation:PRESSENTER`)}
-              placement={'top'}
+              <Icon color='action'>search</Icon>
+              <Input
+                placeholder='Search Item ID'
+                className='flex flex-1 mx-8'
+                disableUnderline
+                fullWidth
+                onChange={e => setSearchID(e.target.value)}
+                onKeyPress={e => {
+                  if (e.key == 'Enter') {
+                    callGo()
+                  }
+                }}
+                value={getSearchID}
+                inputProps={{
+                  'aria-label': 'Search'
+                }}
+                size='small'
+              />
+            </Paper>
+          </Tooltip>
+        </ThemeProvider>
+        <ThemeProvider theme={mainTheme}>
+          <Tooltip title={i18next.t(`navigation:PRESSENTER`)} placement={'top'}>
+            <Paper
+              component={motion.div}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
+              className='flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow  mx-8'
             >
-              <Paper
-                component={motion.div}
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-                className="flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow  mx-8"
-              >
-                <Icon color="action">search</Icon>
-                <Input
-                  placeholder="Search Rentee"
-                  className="flex flex-1 mx-8"
-                  disableUnderline
-                  fullWidth
-                  onChange={(e) => setSearchRentee(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key == 'Enter') {
-                      callGo();
-                    }
-                  }}
-                  value={getSearchRentee}
-                  inputProps={{
-                    'aria-label': 'Search',
-                  }}
-                  size='small'
-                />
-              </Paper>
-            </Tooltip>
-          </ThemeProvider>
-          <ThemeProvider theme={mainTheme}>
-            <Tooltip
-              title={i18next.t(`navigation:PRESSENTER`)}
-              placement={'top'}
+              <Icon color='action'>search</Icon>
+              <Input
+                placeholder='Search Rentee'
+                className='flex flex-1 mx-8'
+                disableUnderline
+                fullWidth
+                onChange={e => setSearchRentee(e.target.value)}
+                onKeyPress={e => {
+                  if (e.key == 'Enter') {
+                    callGo()
+                  }
+                }}
+                value={getSearchRentee}
+                inputProps={{
+                  'aria-label': 'Search'
+                }}
+                size='small'
+              />
+            </Paper>
+          </Tooltip>
+        </ThemeProvider>
+        <ThemeProvider theme={mainTheme}>
+          <Tooltip title={i18next.t(`navigation:PRESSENTER`)} placement={'top'}>
+            <Paper
+              component={motion.div}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
+              className='flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow  mx-8'
             >
-              <Paper
-                component={motion.div}
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-                className="flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow  mx-8"
-              >
-                <Icon color="action">search</Icon>
-                <Input
-                  placeholder="Search Rentee ID"
-                  className="flex flex-1 mx-8"
-                  disableUnderline
-                  fullWidth
-                  onChange={(e) => setRenteeID(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key == 'Enter') {
-                      callGo();
-                    }
-                  }}
-                  value={renteeID}
-                  inputProps={{
-                    'aria-label': 'Search',
-                  }}
-                  size='small'
-                />
-              </Paper>
-            </Tooltip>
-          </ThemeProvider>
-          <ThemeProvider theme={mainTheme}>
-            <Tooltip
-              title={i18next.t(`navigation:SERNO`)}
-              placement={'top'}
+              <Icon color='action'>search</Icon>
+              <Input
+                placeholder='Search Rentee ID'
+                className='flex flex-1 mx-8'
+                disableUnderline
+                fullWidth
+                onChange={e => setRenteeID(e.target.value)}
+                onKeyPress={e => {
+                  if (e.key == 'Enter') {
+                    callGo()
+                  }
+                }}
+                value={renteeID}
+                inputProps={{
+                  'aria-label': 'Search'
+                }}
+                size='small'
+              />
+            </Paper>
+          </Tooltip>
+        </ThemeProvider>
+        <ThemeProvider theme={mainTheme}>
+          <Tooltip title={i18next.t(`navigation:SERNO`)} placement={'top'}>
+            <Paper
+              component={motion.div}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
+              className='flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow  mx-8'
             >
-              <Paper
-                component={motion.div}
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-                className="flex items-center w-full max-w-224 px-8 py-4 rounded-16 shadow  mx-8"
-              >
-                <Icon color="action">search</Icon>
-                <Input
-                  placeholder="Search Serial No"
-                  className="flex flex-1 mx-8"
-                  disableUnderline
-                  fullWidth
-                  onChange={(e) => setSerialNo(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key == 'Enter') {
-                      callGo();
-                    }
-                  }}
-                  value={getSerialNo}
-                  inputProps={{
-                    'aria-label': 'Search',
-                  }}
-                  size='small'
-                />
-              </Paper>
-            </Tooltip>
-          </ThemeProvider>
-        </div>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
-        >
-          <Button
-            className="whitespace-nowrap"
-            variant="contained"
-            color="secondary"
-            size='medium'
-            onClick={callGo}
-          >
-            {i18next.t(`navigation:GO`)}
-          </Button>
-          <Button
-              className="whitespace-nowrap ml-6"
-              variant="contained"
-              color="info"
-              size='medium'
-              onClick={exportSheet}
-            >
-              {i18next.t(`navigation:EXPORT`)}
-            </Button>
-        </motion.div>
+              <Icon color='action'>search</Icon>
+              <Input
+                placeholder='Search Serial No'
+                className='flex flex-1 mx-8'
+                disableUnderline
+                fullWidth
+                onChange={e => setSerialNo(e.target.value)}
+                onKeyPress={e => {
+                  if (e.key == 'Enter') {
+                    callGo()
+                  }
+                }}
+                value={getSerialNo}
+                inputProps={{
+                  'aria-label': 'Search'
+                }}
+                size='small'
+              />
+            </Paper>
+          </Tooltip>
+        </ThemeProvider> */}
       </div>
-  );
+      {/* <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+      >
+        <Button
+          className='whitespace-nowrap'
+          variant='contained'
+          color='secondary'
+          size='medium'
+          onClick={callGo}
+        >
+          {i18next.t(`navigation:GO`)}
+        </Button>
+        <Button
+          className='whitespace-nowrap ml-6'
+          variant='contained'
+          color='info'
+          size='medium'
+          onClick={exportSheet}
+        >
+          {i18next.t(`navigation:EXPORT`)}
+        </Button>
+      </motion.div> */}
+    </div>
+  )
 }
 
-export default LogHeader;
+export default LogHeader

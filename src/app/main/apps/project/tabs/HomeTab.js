@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { selectWidgets } from '../store/widgetsSlice'
 import Icon from '@mui/material/Icon'
@@ -9,12 +9,17 @@ import i18next from 'i18next'
 import { StoreLabs } from 'app/auth/store/constants'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
+import { loadListModules } from 'app/auth/store/sharedData'
+import { Button } from '@mui/material'
+import { showMessage } from 'app/store/fuse/messageSlice'
+import history from '@history';
 
 const colors = ['blue', 'orange', 'green', 'red']
 
 function HomeTab (props) {
-  const { dashDataList, getRole } = props
+  const { dashDataList, getRole, showModules, setModule, setData } = props
   const widgets = useSelector(selectWidgets)
+  const dispatch = useDispatch()
 
   const container = {
     show: {
@@ -27,6 +32,32 @@ function HomeTab (props) {
   const item = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 }
+  }
+
+  function onCardClick (data) {
+    if (showModules) {
+      history.push({
+        pathname: `/apps/sgp/logs`,
+        state: data.name
+      })
+    } else {
+      if (data.modules && data.modules.length > 0) {
+        setModule(true)
+        setData(data.modules)
+      } else {
+        dispatch(
+          showMessage({
+            message: `There are no modules`,
+            autoHideDuration: 2000,
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center'
+            },
+            variant: 'info' //success error info warning null
+          })
+        )
+      }
+    }
   }
 
   return (
@@ -44,6 +75,8 @@ function HomeTab (props) {
             <motion.div
               variants={item}
               className='widget flex w-full sm:w-1/2 md:w-1/4 p-12'
+              onClick={() => onCardClick(data)}
+              style={{ cursor: 'pointer' }}
             >
               <Paper
                 key={a}
@@ -68,11 +101,11 @@ function HomeTab (props) {
                       colors[a % colors.length]
                     } tracking-tighter`}
                   >
-                    {getRole == 'superadmin'
+                    {!showModules
                       ? `${data.company ? data.company : ''}`
                       : `${data.name ? data.name : ''}`}
                   </Typography>
-                  {getRole == 'superadmin' && (
+                  {!showModules && (
                     <Typography
                       className={`text-18 font-normal text-${
                         a == 1
@@ -99,11 +132,11 @@ function HomeTab (props) {
                   color='textSecondary'
                 >
                   <span className='truncate'>
-                    {getRole == 'superadmin' ? 'Created Date' : 'Head Name'}
+                    {!showModules ? 'Created Date' : 'Head Name'}
                   </span>
                   :
                   <b className='px-8'>
-                    {getRole == 'superadmin'
+                    {!showModules
                       ? `${
                           data.createdAt
                             ? moment(data.createdAt).format('MMMM D, YYYY h:mm')

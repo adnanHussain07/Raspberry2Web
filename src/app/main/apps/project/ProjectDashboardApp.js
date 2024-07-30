@@ -21,6 +21,7 @@ import {
   getCompanies,
   getModule
 } from 'app/auth/store/commonServices'
+import { Button } from '@mui/material'
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
@@ -59,6 +60,7 @@ function ProjectDashboardApp (props) {
   const pageLayout = useRef(null)
   const [tabValue, setTabValue] = useState(0)
   const [getRole, setRole] = useState('')
+  const [showModules, setShowModules] = useState(false)
   const [dashDataList, setDashDataList] = useState([])
 
   useEffect(() => {
@@ -68,7 +70,10 @@ function ProjectDashboardApp (props) {
       if (ad && ad.roleid) {
         setRole(ad.roleid)
         if (ad.roleid == 'superadmin') dispatch(getCompanies())
-        else dispatch(getModule({ company: ad.company ? ad.company : '' }))
+        else {
+          dispatch(getModule({ company: ad.company ? ad.company : '' }))
+          changeShowModule(true)
+        }
       }
     }
   }, [dispatch])
@@ -81,8 +86,8 @@ function ProjectDashboardApp (props) {
         const ad = JSON.parse(da)
         if (ad && ad.roleid) {
           setRole(ad.roleid)
-          if (ad.roleid == 'superadmin') setDashDataList(listCompanies)
-          else setDashDataList(modulesCompanies)
+          if (ad.roleid == 'superadmin') changeData(listCompanies)
+          else changeData(modulesCompanies)
         }
       }
     }
@@ -93,6 +98,19 @@ function ProjectDashboardApp (props) {
 
   function handleChangeTab (event, value) {
     setTabValue(value)
+  }
+
+  function changeShowModule (da) {
+    setShowModules(da)
+  }
+
+  function changeData (da) {
+    setDashDataList(da)
+  }
+
+  function onBackClick () {
+    changeShowModule(false)
+    changeData(listCompanies)
   }
 
   return loader ? (
@@ -124,9 +142,7 @@ function ProjectDashboardApp (props) {
           <Tab
             className='text-14 font-semibold min-h-40 min-w-64 mx-4 px-12'
             disableRipple
-            label={`${
-              getRole && getRole == 'superadmin' ? 'Companies' : 'Modules'
-            }`}
+            label={showModules ? 'Modules' : 'Companies'}
             key={0}
           />
         </Tabs>
@@ -134,7 +150,25 @@ function ProjectDashboardApp (props) {
       content={
         <div className='p-12 lg:ltr:pr-0 lg:rtl:pl-0'>
           {tabValue === 0 && (
-            <HomeTab dashDataList={dashDataList} getRole={getRole} />
+            <>
+              {getRole == 'superadmin' && showModules && (
+                <Button
+                  type='button'
+                  color='primary'
+                  variant='contained'
+                  onClick={() => onBackClick()}
+                >
+                  Back
+                </Button>
+              )}
+              <HomeTab
+                dashDataList={dashDataList}
+                getRole={getRole}
+                showModules={showModules}
+                setModule={changeShowModule}
+                setData={changeData}
+              />
+            </>
           )}
         </div>
       }

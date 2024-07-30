@@ -30,6 +30,7 @@ const GATEWAY_COMPUSER = '/user/showcompanyuser'
 const GATEWAY_DELETEUSER = '/user/deleteuser'
 const GATEWAY_CREATEITEM = '/company/register'
 const GATEWAY_CREATMODULE = '/company/addmodule'
+const GATEWAY_GETLOGS = '/modules/logs'
 
 const GATEWAY_CREATEUSER = '/user/create'
 const GATEWAY_GETITEM = '/static'
@@ -250,6 +251,19 @@ function updatePassService (body) {
   })
 }
 
+function getAllLogsService (body) {
+  return new Promise((resolve, reject) => {
+    const queryString = body ? body : ''
+    _getCustom(`${GATEWAY_GETLOGS + queryString}`)
+      .then(res => {
+        resolve(res.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
 function deleteItemService (body) {
   return new Promise((resolve, reject) => {
     _deleteCustom(GATEWAY_CREATEITEM + '/' + body)
@@ -365,7 +379,8 @@ const dataServiceMethods = {
   getAllCompaniesService,
   addModuleService,
   getCompanyModuleService,
-
+  getAllLogsService,
+  
   loginService,
   registerService,
   addUserService,

@@ -33,29 +33,30 @@ const Root = styled(FusePageCarded)(({ theme }) => ({
   },
 }));
 
-function Logs() {
+function Logs(props) {
+  const id = props.location.state
   const dispatch = useDispatch();
   const role = useSelector(({ auth }) => auth.user.roleid ? auth.user.roleid : 0);
-  const [allowed, setAllowed] = React.useState(false);
-  const [checkLoader, setCheckLoader] = React.useState(true);
+  const [allowed, setAllowed] = React.useState(true);
+  const [checkLoader, setCheckLoader] = React.useState(false);
 
-  React.useEffect(() => {
-    let mounted = true;
-    if (mounted) {
-      const check = dispatch(checkAccess(Menus.ITEMS));
-      if (check && check != '') {
-        setCheckLoader(false);
-        if (check == 'allowed') {
-          setAllowed(true);
-        }
-      }
-    }
+  // React.useEffect(() => {
+  //   let mounted = true;
+  //   if (mounted) {
+  //     const check = dispatch(checkAccess(Menus.ITEMS));
+  //     if (check && check != '') {
+  //       setCheckLoader(false);
+  //       if (check == 'allowed') {
+  //         setAllowed(true);
+  //       }
+  //     }
+  //   }
 
-    return () => mounted = false;
-  }, [role]);
+  //   return () => mounted = false;
+  // }, [role]);
 
   return checkLoader ? <FuseLoading /> :
-    allowed ? <Root header={<LogHeader />} content={<LogTable />} innerScroll /> :
+    allowed ? <Root header={<LogHeader id={id} />} content={<LogTable />} innerScroll /> :
       <Error401 />;
 }
 

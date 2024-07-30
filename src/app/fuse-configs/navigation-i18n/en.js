@@ -27,6 +27,7 @@ const locale = {
   ADDITEMS: 'Add Company',
   ADDMODULE: 'Add Module',
   LOGS: 'Logs',
+  LOGS_: 'LOGS',
   REGISTERUSER: 'Register User',
   ADD: 'Add',
   SELECTSTATUS: 'Select Status',
@@ -92,6 +93,7 @@ const locale = {
   DUSERID: "ID",
   DNAME: "NAME",
   COMPANY: "COMPANY",
+  MODULE: "MODULE",
   DDEPT: "DEPARTMENT",
   ROLE: "ROLE",
   EMAIL: "EMAIL",
@@ -128,6 +130,7 @@ const locale = {
   TITLE: "SGP Technologies",
   TITLEDESC: "SGP Technologies",
   TOTLAMAINT: "TOTAL MAINTENANCE",
+  VIDEO: "VIDEO",
 };
 
 export default locale;

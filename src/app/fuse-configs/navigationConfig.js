@@ -40,7 +40,7 @@ const navigationConfig = [
       //   translate: 'LOGS',
       //   type: 'item',
       //   icon: 'history',
-      //   url: '/apps/jic/logs'
+      //   url: '/apps/sgp/logs'
       // },
       {
         id: Menus.USERS,
@@ -48,7 +48,7 @@ const navigationConfig = [
         translate: 'USERS',
         type: 'item',
         icon: 'people',
-        url: '/apps/jic/users'
+        url: '/apps/spg/users'
       },
       {
         id: Menus.ADD,

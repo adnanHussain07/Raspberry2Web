@@ -105,7 +105,7 @@ function DriverTable(props) {
     if (name) {
       dispatch(changeLogItemName(name));
       history.push({
-        pathname: '/apps/jic/logs',
+        pathname: '/apps/sgp/logs',
       });
     }
   }

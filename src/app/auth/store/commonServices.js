@@ -103,29 +103,6 @@ export const getProducts = body => async dispatch => {
     })
 }
 
-// export const getLogs = body => async dispatch => {
-//   dispatch(setLogsLoader(true))
-//   return ds
-//     .getAllLogsService(body)
-//     .then(res => {
-//       dispatch(setLogsLoader(false))
-//       if (res.total) {
-//         dispatch(changeLogsTotalCount(res.total))
-//       } else dispatch(changeLogsTotalCount(50))
-//       if (res && res.history && res.history.length > 0) {
-//         dispatch(changeLogsData(res.history))
-//       } else {
-//         dispatch(changeLogsData([]))
-//       }
-//     })
-//     .catch(e => {
-//       dispatch(changeLogsTotalCount(0))
-//       dispatch(changeLogsData([]))
-//       dispatch(setLogsLoader(false))
-//       dispatch(handleResponse(e, false))
-//     })
-// }
-
 export const getUsers = (body, role) => async dispatch => {
   dispatch(setUsersListLoader(true))
   return ds
@@ -324,6 +301,29 @@ export const rentUsersService = body => async dispatch => {
     })
     .catch(e => {
       dispatch(setRentUsersListLoader(false))
+      dispatch(handleResponse(e, false))
+    })
+}
+
+export const getLogs = body => async dispatch => {
+  dispatch(setLogsLoader(true))
+  return ds
+    .getAllLogsService(body)
+    .then(res => {
+      dispatch(setLogsLoader(false))
+      if (res.total) {
+        dispatch(changeLogsTotalCount(res.total))
+      } else dispatch(changeLogsTotalCount(50))
+      if (res && res.logs && res.logs.length > 0) {
+        dispatch(changeLogsData(res.logs))
+      } else {
+        dispatch(changeLogsData([]))
+      }
+    })
+    .catch(e => {
+      dispatch(changeLogsTotalCount(0))
+      dispatch(changeLogsData([]))
+      dispatch(setLogsLoader(false))
       dispatch(handleResponse(e, false))
     })
 }
