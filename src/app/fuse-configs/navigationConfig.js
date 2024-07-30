@@ -34,14 +34,14 @@ const navigationConfig = [
       //   icon: 'developer_board',
       //   url: '/apps/jic/items',
       // },
-      {
-        id: Menus.LOGS,
-        title: 'Logs',
-        translate: 'LOGS',
-        type: 'item',
-        icon: 'history',
-        url: '/apps/jic/logs'
-      },
+      // {
+      //   id: Menus.LOGS,
+      //   title: 'Logs',
+      //   translate: 'LOGS',
+      //   type: 'item',
+      //   icon: 'history',
+      //   url: '/apps/jic/logs'
+      // },
       {
         id: Menus.USERS,
         title: 'Users',
