@@ -23,6 +23,7 @@ import {
   changeshowAddModule
 } from 'app/auth/store/sharedData'
 import { StoreLabs } from 'app/auth/store/constants'
+import { getModule } from 'app/auth/store/commonServices'
 
 function AddModule (props) {
   const { isEdit, idd, handleEdit } = props
@@ -34,28 +35,22 @@ function AddModule (props) {
     i18n.language ? i18n.language : ''
   )
   const theme = useTheme()
+  const listCompanies = useSelector(({ auth }) => auth.shared.listCompanies)
 
   const [getItemName, setItemName] = useState('')
   const [getItemID, setItemID] = useState('')
-  const [getStoreNbr, setStoreNbr] = useState('0')
-  const [getSerNo, setSerNo] = useState('')
   const [getCompany, setCompany] = useState('')
 
   async function postItem (body) {
-    const getReq = ds.addItemService(body)
+    const getReq = ds.addModuleService(body)
     await getReq
       .then(res => {
         dispatch(setAddItemLoader(false))
         if (res && res != '') {
-          const bossdy = {
-            changsrre: true,
-            pageNo: itemPagination.pageNo,
-            pageSize: itemPagination.pageSize
-          }
-          dispatch(changeItemPagination(bossdy))
+          dispatch(getModule({ company: getCompany }))
           dispatch(
             showMessage({
-              message: `Item has been entered`,
+              message: `Module has been created`,
               autoHideDuration: 2000,
               anchorOrigin: {
                 vertical: 'top',
@@ -88,12 +83,11 @@ function AddModule (props) {
   function setToInitial () {
     setItemID('')
     setItemName('')
-    setStoreNbr('0')
-    setSerNo('')
+    setCompany('')
   }
 
   function onSave () {
-    if (!getItemName || !getItemID || !getStoreNbr || getStoreNbr == '0') {
+    if (!getItemName || !getItemID || !getCompany) {
       dispatch(
         showMessage({
           message: `Please provide proper information`,
@@ -108,10 +102,11 @@ function AddModule (props) {
       return
     }
     const body = {
-      name: getItemName,
-      itemid: getItemID,
-      original_storenumber: getStoreNbr,
-      SerialNo: getSerNo
+      company: getCompany,
+      modules: {
+        name: getItemName,
+        head: getItemID
+      }
     }
     dispatch(setAddItemLoader(true))
     postItem(body)
@@ -174,12 +169,15 @@ function AddModule (props) {
                       }}
                       // disabled={isEdit}
                     >
-                      <MenuItem key={0} value={'admin'}>
-                        Company A
-                      </MenuItem>
-                      <MenuItem key={1} value={'user'}>
-                        Company B
-                      </MenuItem>
+                      {listCompanies &&
+                        listCompanies.length > 0 &&
+                        listCompanies.map((d, key) => {
+                          return (
+                            <MenuItem key={key} value={d.company}>
+                              {d.company}
+                            </MenuItem>
+                          )
+                        })}
                     </Select>
                   </FormControl>
                 </div>
@@ -213,9 +211,9 @@ function AddModule (props) {
                     label={i18next.t(`navigation:HEADNAME`)}
                     id='name'
                     name='name'
-                    value={getItemName}
+                    value={getItemID}
                     onChange={e => {
-                      setItemName(e.target.value)
+                      setItemID(e.target.value)
                     }}
                     // maxLength="30"
                     variant='outlined'

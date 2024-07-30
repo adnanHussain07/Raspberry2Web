@@ -52,7 +52,13 @@ export const RoleMenus = [
   // register admin
   {
     id: Roles.admin,
-    access: [Menus.LOGS, Menus.REGISTERUSER, Menus.ADD, Menus.DASH],
+    access: [
+      Menus.LOGS,
+      Menus.REGISTERUSER,
+      Menus.ADD,
+      Menus.DASH,
+      Menus.USERS
+    ],
     permissions: [
       Permissions.ADDITEM,
       Permissions.ADDREGISTER,

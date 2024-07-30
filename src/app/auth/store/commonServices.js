@@ -126,20 +126,12 @@ export const getProducts = body => async dispatch => {
 //     })
 // }
 
-export const getUsers = (body, isReg) => async dispatch => {
+export const getUsers = (body, role) => async dispatch => {
   dispatch(setUsersListLoader(true))
   return ds
-    .getAllUsersService(body, isReg)
+    .getAllUsersService(body, role)
     .then(res => {
-      const data = res
-        ? isReg
-          ? res.user
-            ? res.user
-            : false
-          : res.users
-          ? res.users
-          : false
-        : false
+      const data = res.user
       dispatch(setUsersListLoader(false))
       if (res.total) {
         dispatch(changeUsersTotalCount(res.total))

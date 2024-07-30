@@ -88,7 +88,7 @@ const navigationConfig = [
             title: 'Add Module',
             translate: 'ADDMODULE',
             // auth: Roles.superadmin,
-            icon: 'login',
+            icon: 'developer_board',
             type: 'item',
             url: '#'
           }

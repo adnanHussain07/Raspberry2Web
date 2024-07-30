@@ -43,7 +43,7 @@ function Users() {
   React.useEffect(() => {
     let mounted = true;
     if (mounted) {
-      const check = dispatch(checkAccess(Menus.ITEMS));
+      const check = dispatch(checkAccess(Menus.USERS));
       if (check && check != '') {
         setCheckLoader(false);
         if (check == 'allowed') {

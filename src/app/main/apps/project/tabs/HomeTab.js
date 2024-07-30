@@ -10,6 +10,8 @@ import { StoreLabs } from 'app/auth/store/constants'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 
+const colors = ['blue', 'orange', 'green', 'red']
+
 function HomeTab (props) {
   const { dashDataList, getRole } = props
   const widgets = useSelector(selectWidgets)
@@ -63,15 +65,7 @@ function HomeTab (props) {
                 <div className='text-center py-12'>
                   <Typography
                     className={`mb-4 text-28 font-semibold leading-none text-${
-                      a == 1
-                        ? 'blue'
-                        : a == 2
-                        ? 'orange'
-                        : a == 3
-                        ? 'green'
-                        : a == 4
-                        ? 'red'
-                        : 'green'
+                      colors[a % colors.length]
                     } tracking-tighter`}
                   >
                     {getRole == 'superadmin'

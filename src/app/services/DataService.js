@@ -1,328 +1,370 @@
 import { env } from '../../env'
-const { REACT_APP_API_ENDPOINT } = env;
+const { REACT_APP_API_ENDPOINT } = env
 
 // *** baseURL & version control ****
-const serverUri = REACT_APP_API_ENDPOINT;
-const BASE_URL = serverUri;
+const serverUri = REACT_APP_API_ENDPOINT
+const BASE_URL = serverUri
 
 // *** headers ***
 const lockHeader = {
   'Content-Type': 'application/json',
   // Authorization: `Bearer ${localStorage.getItem('userguid')}`,
-  "Access-Control-Allow-Origin": BASE_URL,
-  "Access-Control-Allow-Credentials": true,
+  'Access-Control-Allow-Origin': BASE_URL,
+  'Access-Control-Allow-Credentials': true
   // 'Content-Type': 'application/json',
   // // 'x-api-version': `${version}`,
   // Authorization: `Bearer ${localStorage.getItem('userguid')}`,
-};
+}
 const openHeader = {
-  'Content-Type': 'application/json',
+  'Content-Type': 'application/json'
   // 'x-api-version': `${version}`,
-};
+}
 
 // *** URIs ***
-const GATEWAY_LOGIN = '/user/login';
-const GATEWAY_REGISTER = '/user/register';
-const GATEWAY_ALL_COMPANIES = '/company/getallmodules';
-const GATEWAY_COMPANY_MODULE = '/company/getmodulebycompany';
+const GATEWAY_LOGIN = '/user/login'
+const GATEWAY_REGISTER = '/user/register'
+const GATEWAY_ALL_COMPANIES = '/company/getallmodules'
+const GATEWAY_COMPANY_MODULE = '/company/getmodulebycompany'
+const GATEWAY_GETREGUSER = '/user/showregisterusers'
+const GATEWAY_COMPUSER = '/user/showcompanyuser'
+const GATEWAY_DELETEUSER = '/user/deleteuser'
+const GATEWAY_CREATEITEM = '/company/register'
+const GATEWAY_CREATMODULE = '/company/addmodule'
 
-
-const GATEWAY_CREATEUSER = '/user/create';
-const GATEWAY_GETREGUSER = '/auth/showregisterusers';
-const GATEWAY_CREATEITEM = '/item/create';
-const GATEWAY_GETITEM = '/static';
-const GATEWAY_LOGOUT = '/auth/logout';
-const GATEWAY_UPDATE_PASS = '/auth/updatepassword';
-const GATEWAY_LOGS = '/logs';
-const GATEWAY_GETTING = '/getting';
-const GATEWAY_RENTING = '/renting';
-const GATEWAY_MAINTAINACE = '/maintenance';
-const GATEWAY_DASHBAORD = '/dashboard';
-const GATEWAY_SPREADSHEET = '/spreadsheet';
+const GATEWAY_CREATEUSER = '/user/create'
+const GATEWAY_GETITEM = '/static'
+const GATEWAY_LOGOUT = '/auth/logout'
+const GATEWAY_UPDATE_PASS = '/auth/updatepassword'
+const GATEWAY_LOGS = '/logs'
+const GATEWAY_GETTING = '/getting'
+const GATEWAY_RENTING = '/renting'
+const GATEWAY_MAINTAINACE = '/maintenance'
+const GATEWAY_DASHBAORD = '/dashboard'
+const GATEWAY_SPREADSHEET = '/spreadsheet'
 
 // eslint-disable-next-line camelcase
-const axios_1 = require('axios');
+const axios_1 = require('axios')
 
-function _postCustom(url, data) {
+function _postCustom (url, data) {
   const axiosCustom = axios_1.default.create({
     baseURL: BASE_URL,
     headers: lockHeader,
-    withCredentials: true, //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario 
-  });
-  return axiosCustom.post(url, data);
+    withCredentials: true //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario
+  })
+  return axiosCustom.post(url, data)
 }
 
-function _patchCustom(url, data) {
+function _patchCustom (url, data) {
   const axiosCustom = axios_1.default.create({
     baseURL: BASE_URL,
     headers: lockHeader,
-    withCredentials: true, //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario 
-  });
-  return axiosCustom.patch(url, data);
+    withCredentials: true //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario
+  })
+  return axiosCustom.patch(url, data)
 }
 
-function _postCustomWithoutContent(url, data) {
+function _postCustomWithoutContent (url, data) {
   const axiosCustom = axios_1.default.create({
     baseURL: BASE_URL,
     headers: {
       // Authorization: `Bearer ${localStorage.getItem('userguid')}`,
-      "Access-Control-Allow-Origin": BASE_URL,
-      "Access-Control-Allow-Credentials": true,
-    },
-  });
-  return axiosCustom.post(url, data);
+      'Access-Control-Allow-Origin': BASE_URL,
+      'Access-Control-Allow-Credentials': true
+    }
+  })
+  return axiosCustom.post(url, data)
 }
 
-function _getCustom(url, data, isBuffer) {
+function _getCustom (url, data, isBuffer) {
   const axiosCustom = axios_1.default.create({
     baseURL: BASE_URL,
     headers: {
       'Content-Type': isBuffer ? 'blob' : 'application/json',
-      "Access-Control-Allow-Origin": BASE_URL,
-      "Access-Control-Allow-Credentials": true,
+      'Access-Control-Allow-Origin': BASE_URL,
+      'Access-Control-Allow-Credentials': true
     },
-    withCredentials: true, //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario 
-    responseType: isBuffer ? "arraybuffer" : "json",
-  });
-  return axiosCustom.get(url, data);
+    withCredentials: true, //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario
+    responseType: isBuffer ? 'arraybuffer' : 'json'
+  })
+  return axiosCustom.get(url, data)
 }
 
-function _postWithOutHeader(url, data) {
+function _postWithOutHeader (url, data) {
   const axiosCustom = axios_1.default.create({
     baseURL: BASE_URL,
-    headers: openHeader,
-  });
-  return axiosCustom.post(url, data);
+    headers: openHeader
+  })
+  return axiosCustom.post(url, data)
 }
 
-function _putCustom(url, data) {
-  const axiosCustom = axios_1.default.create({
-    baseURL: BASE_URL,
-    headers: lockHeader,
-    withCredentials: true, //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario 
-  });
-  return axiosCustom.put(url, data);
-}
-
-function _deleteCustom(url, data) {
+function _putCustom (url, data) {
   const axiosCustom = axios_1.default.create({
     baseURL: BASE_URL,
     headers: lockHeader,
-    withCredentials: true, //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario 
-  });
-  return axiosCustom.delete(url, data);
+    withCredentials: true //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario
+  })
+  return axiosCustom.put(url, data)
+}
+
+function _deleteCustom (url, data) {
+  const axiosCustom = axios_1.default.create({
+    baseURL: BASE_URL,
+    headers: lockHeader,
+    withCredentials: true //IMPORTANT!!!! this is to set httpOnly cookie which contained jwt token for our scenario
+  })
+  return axiosCustom.delete(url, data)
 }
 
 //////////////////////////////
 
-function loginService(body) {
-
+function loginService (body) {
   return new Promise((resolve, reject) => {
     _postCustom(GATEWAY_LOGIN, body)
-      .then((res) => {
-
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function registerService(body) {
+function registerService (body) {
   return new Promise((resolve, reject) => {
     _postCustom(GATEWAY_REGISTER, body)
-      .then((res) => {
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function addUserService(body) {
+function addUserService (body) {
   return new Promise((resolve, reject) => {
     _postCustom(GATEWAY_CREATEUSER, body)
-      .then((res) => {
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function addItemService(body) {
+function addItemService (body) {
   return new Promise((resolve, reject) => {
     _postCustom(GATEWAY_CREATEITEM, body)
-      .then((res) => {
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function getAllCompaniesService(body) {
+function addModuleService (body) {
+  return new Promise((resolve, reject) => {
+    _postCustom(GATEWAY_CREATMODULE, body)
+      .then(res => {
+        resolve(res.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+function getAllCompaniesService (body) {
   return new Promise((resolve, reject) => {
     _getCustom(GATEWAY_ALL_COMPANIES)
-      .then((res) => {
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function logoutService() {
+function logoutService () {
   return new Promise((resolve, reject) => {
     _getCustom(GATEWAY_LOGOUT)
-      .then((res) => {
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function getCompanyModuleService(body) {
+function getCompanyModuleService (body) {
   return new Promise((resolve, reject) => {
-    const queryString = body ? body : "";
-    _getCustom(GATEWAY_COMPANY_MODULE + queryString)
-      .then((res) => {
-        resolve(res.data);
+    _postCustom(GATEWAY_COMPANY_MODULE, body)
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function getAllUsersService(body, isReg) {
-  return new Promise((resolve, reject) => {
-    const queryString = body ? body : "";
-    _getCustom(isReg ? `${GATEWAY_GETREGUSER + queryString}` : `${GATEWAY_CREATEUSER + queryString}`)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+function getAllUsersService (body, company) {
+  if (company) {
+    return new Promise((resolve, reject) => {
+      _postCustom(GATEWAY_COMPUSER, { company: company })
+        .then(res => {
+          resolve(res.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  } else {
+    return new Promise((resolve, reject) => {
+      const queryString = body ? body : ''
+      _getCustom(`${GATEWAY_GETREGUSER + queryString}`)
+        .then(res => {
+          resolve(res.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
-function updatePassService(body) {
+function updatePassService (body) {
   return new Promise((resolve, reject) => {
     _patchCustom(GATEWAY_UPDATE_PASS, body)
-      .then((res) => {
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function deleteItemService(body) {
+function deleteItemService (body) {
   return new Promise((resolve, reject) => {
-    _deleteCustom(GATEWAY_CREATEITEM + "/" + body)
-      .then((res) => {
-        resolve(res.data);
+    _deleteCustom(GATEWAY_CREATEITEM + '/' + body)
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function deleteUserService(body) {
+function deleteUserService (body) {
   return new Promise((resolve, reject) => {
-    _deleteCustom(GATEWAY_CREATEUSER + "/" + body)
-      .then((res) => {
-        resolve(res.data);
+    _deleteCustom(GATEWAY_DELETEUSER + '/' + body)
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function deleteRegisterService(body) {
+function deleteRegisterService (body) {
   return new Promise((resolve, reject) => {
-    _deleteCustom(GATEWAY_GETREGUSER + "/" + body)
-      .then((res) => {
-        resolve(res.data);
+    _deleteCustom(GATEWAY_GETREGUSER + '/' + body)
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function changeStatusMaintainService(body) {
+function changeStatusMaintainService (body) {
   return new Promise((resolve, reject) => {
     _postCustom(GATEWAY_GETTING, body)
-      .then((res) => {
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function changeStatusService(body, type) {
+function changeStatusService (body, type) {
   return new Promise((resolve, reject) => {
-    _postCustom(type == 'rent' ? GATEWAY_RENTING :
-      type == 'avail' ? GATEWAY_GETTING :
-        type == 'maint' ? GATEWAY_MAINTAINACE : '', body)
-      .then((res) => {
-        resolve(res.data);
+    _postCustom(
+      type == 'rent'
+        ? GATEWAY_RENTING
+        : type == 'avail'
+        ? GATEWAY_GETTING
+        : type == 'maint'
+        ? GATEWAY_MAINTAINACE
+        : '',
+      body
+    )
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function dashboardService() {
+function dashboardService () {
   return new Promise((resolve, reject) => {
     _getCustom(GATEWAY_DASHBAORD)
-      .then((res) => {
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-function spreadSheetService(body) {
+function spreadSheetService (body) {
   return new Promise((resolve, reject) => {
-    const SerialNo = body.SerialNo ? `&SerialNo=${body.SerialNo}` : "";
-    const status = body.status ? `&status=${body.status}` : "";
-    const present_storenumber = body.present_storenumber ? `&present_storenumber=${body.present_storenumber}` : "";
-    const rentee = body.rentee ? `&rentee=${body.rentee}` : "";
-    const name = body.name ? `&name=${body.name}` : "";
-    const itemid = body.itemid ? `&itemid=${body.itemid}` : "";
-    const rentee_id = body.rentee_id ? `&rentee_id=${body.rentee_id}` : "";
-    const type = `?type=${body.type ? body.type : "items"}${SerialNo + status + present_storenumber + rentee + name + itemid + rentee_id}`;
+    const SerialNo = body.SerialNo ? `&SerialNo=${body.SerialNo}` : ''
+    const status = body.status ? `&status=${body.status}` : ''
+    const present_storenumber = body.present_storenumber
+      ? `&present_storenumber=${body.present_storenumber}`
+      : ''
+    const rentee = body.rentee ? `&rentee=${body.rentee}` : ''
+    const name = body.name ? `&name=${body.name}` : ''
+    const itemid = body.itemid ? `&itemid=${body.itemid}` : ''
+    const rentee_id = body.rentee_id ? `&rentee_id=${body.rentee_id}` : ''
+    const type = `?type=${body.type ? body.type : 'items'}${
+      SerialNo +
+      status +
+      present_storenumber +
+      rentee +
+      name +
+      itemid +
+      rentee_id
+    }`
     _getCustom(GATEWAY_SPREADSHEET + type, false, true)
-      .then((res) => {
-        resolve(res.data);
+      .then(res => {
+        resolve(res.data)
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
 const dataServiceMethods = {
   getAllCompaniesService,
+  addModuleService,
+  getCompanyModuleService,
 
   loginService,
   registerService,
@@ -336,7 +378,7 @@ const dataServiceMethods = {
   deleteRegisterService,
   changeStatusService,
   dashboardService,
-  spreadSheetService,
-};
+  spreadSheetService
+}
 
-export default dataServiceMethods;
+export default dataServiceMethods

@@ -23,6 +23,7 @@ import {
   changeshowAddItem
 } from 'app/auth/store/sharedData'
 import { StoreLabs } from 'app/auth/store/constants'
+import { getCompanies } from 'app/auth/store/commonServices'
 
 function AddItem (props) {
   const { isEdit, idd, handleEdit } = props
@@ -36,9 +37,6 @@ function AddItem (props) {
   const theme = useTheme()
 
   const [getItemName, setItemName] = useState('')
-  const [getItemID, setItemID] = useState('')
-  const [getStoreNbr, setStoreNbr] = useState('0')
-  const [getSerNo, setSerNo] = useState('')
 
   async function postItem (body) {
     const getReq = ds.addItemService(body)
@@ -46,15 +44,9 @@ function AddItem (props) {
       .then(res => {
         dispatch(setAddItemLoader(false))
         if (res && res != '') {
-          const bossdy = {
-            changsrre: true,
-            pageNo: itemPagination.pageNo,
-            pageSize: itemPagination.pageSize
-          }
-          dispatch(changeItemPagination(bossdy))
           dispatch(
             showMessage({
-              message: `Item has been entered`,
+              message: `Company has been created`,
               autoHideDuration: 2000,
               anchorOrigin: {
                 vertical: 'top',
@@ -65,6 +57,7 @@ function AddItem (props) {
           )
           setToInitial()
           dispatch(changeshowAddItem(false))
+          dispatch(getCompanies())
         }
       })
       .catch(e => {
@@ -85,14 +78,11 @@ function AddItem (props) {
   }
 
   function setToInitial () {
-    setItemID('')
     setItemName('')
-    setStoreNbr('0')
-    setSerNo('')
   }
 
   function onSave () {
-    if (!getItemName || !getItemID || !getStoreNbr || getStoreNbr == '0') {
+    if (!getItemName) {
       dispatch(
         showMessage({
           message: `Please provide proper information`,
@@ -107,10 +97,7 @@ function AddItem (props) {
       return
     }
     const body = {
-      name: getItemName,
-      itemid: getItemID,
-      original_storenumber: getStoreNbr,
-      SerialNo: getSerNo
+      company: getItemName
     }
     dispatch(setAddItemLoader(true))
     postItem(body)
@@ -168,74 +155,6 @@ function AddItem (props) {
                     fullWidth
                   />
                 </div>
-
-                {/* <div className="flex">
-										<div className="min-w-48 pt-20">
-											<Icon color="action">account_circle</Icon>
-										</div>
-										<TextField
-											className="mb-24"
-											label={i18next.t(`navigation:ITEMID`)}
-											id="id"
-											name="id"
-											value={getItemID}
-											onChange={(e) => {
-												setItemID(e.target.value)
-											}}
-											// maxLength="30"
-											variant="outlined"
-											required
-											fullWidth
-										/>
-									</div>
-
-									<div className="flex">
-										<div className="min-w-48 pt-20">
-											<Icon color="action">account_circle</Icon>
-										</div>
-										<TextField
-											className="mb-24"
-											label={i18next.t(`navigation:SERNO`)}
-											id="id"
-											name="id"
-											value={getSerNo}
-											onChange={(e) => {
-												setSerNo(e.target.value)
-											}}
-											// maxLength="30"
-											variant="outlined"
-											required
-											fullWidth
-										/>
-									</div>
-
-									<div className="flex">
-										<div className="min-w-48 pt-20">
-											<Icon color="action">account_circle</Icon>
-										</div>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={getStoreNbr}
-											label={i18next.t(`navigation:SELECTSTORE`)}
-											onChange={(e) => setStoreNbr(e.target.value)}
-											// size="small"
-											fullWidth
-										>
-											<MenuItem autoFocus={false} value="0">{i18next.t(`navigation:SELECTSTORE`)}</MenuItem>
-											{StoreLabs.map((a, i) => {
-												return (
-													<MenuItem
-														key={i}
-														autoFocus={false}
-														value={a.id}
-													>
-														{a.name}
-													</MenuItem>
-												)
-											})}
-										</Select>
-									</div> */}
               </div>
             </>
           )}

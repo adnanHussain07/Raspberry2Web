@@ -54,7 +54,7 @@ function ProjectDashboardApp (props) {
   const widgets = useSelector(selectWidgets)
   const loader = useSelector(({ auth }) => auth.loaders.dashboardLoader)
   const listCompanies = useSelector(({ auth }) => auth.shared.listCompanies)
-  const modulesCompanies = useSelector(({ auth }) => auth.shared.listCompanies)
+  const modulesCompanies = useSelector(({ auth }) => auth.shared.listModules)
 
   const pageLayout = useRef(null)
   const [tabValue, setTabValue] = useState(0)
@@ -77,7 +77,6 @@ function ProjectDashboardApp (props) {
     let mounted = true
     if (mounted) {
       const da = localStorage.getItem('ghuid')
-      debugger
       if (da) {
         const ad = JSON.parse(da)
         if (ad && ad.roleid) {
@@ -134,10 +133,17 @@ function ProjectDashboardApp (props) {
       }
       content={
         <div className='p-12 lg:ltr:pr-0 lg:rtl:pl-0'>
-          {tabValue === 0 && <HomeTab dashDataList={dashDataList} getRole={getRole} />}
+          {tabValue === 0 && (
+            <HomeTab dashDataList={dashDataList} getRole={getRole} />
+          )}
         </div>
       }
-      rightSidebarContent={<ProjectDashboardAppSidebar dashDataList={dashDataList} getRole={getRole} />}
+      rightSidebarContent={
+        <ProjectDashboardAppSidebar
+          dashDataList={dashDataList}
+          getRole={getRole}
+        />
+      }
       ref={pageLayout}
     />
   )

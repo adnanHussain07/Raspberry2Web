@@ -4,7 +4,7 @@ import FuseTheme from '@fuse/core/FuseTheme'
 import history from '@history'
 import { Router } from 'react-router-dom'
 import { SnackbarProvider } from 'notistack'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import rtlPlugin from 'stylis-plugin-rtl'
 import createCache from '@emotion/cache'
 import { CacheProvider } from '@emotion/react'
@@ -12,6 +12,7 @@ import { selectCurrLangDir } from 'app/store/i18nSlice'
 import withAppProviders from './withAppProviders'
 import { Auth } from './auth'
 import { useEffect } from 'react'
+import { getCompanies, getModule } from './auth/store/commonServices'
 
 // import axios from 'axios';
 /**
@@ -36,6 +37,18 @@ const emotionCacheOptions = {
 
 const App = () => {
   const langDirection = useSelector(selectCurrLangDir)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const da = localStorage.getItem('ghuid')
+    if (da) {
+      const ad = JSON.parse(da)
+      if (ad && ad.roleid) {
+        if (ad.roleid == 'superadmin') dispatch(getCompanies())
+        else dispatch(getModule({ company: ad.company ? ad.company : '' }))
+      }
+    }
+  }, [localStorage.getItem('ghuid')])
 
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>

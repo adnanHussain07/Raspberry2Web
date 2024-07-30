@@ -28,6 +28,8 @@ function RegisterUser (props) {
   const language = useSelector(({ i18n }) =>
     i18n.language ? i18n.language : ''
   )
+  const listCompanies = useSelector(({ auth }) => auth.shared.listCompanies)
+
   const theme = useTheme()
 
   const [getUserName, setUserName] = useState('')
@@ -37,6 +39,26 @@ function RegisterUser (props) {
   const [getCompany, setCompany] = useState('')
   const [passMsg, setPassMsg] = useState('')
   const [isPassValid, setIsPassValid] = useState(false)
+  const [userRole, setUserRole] = useState('')
+  // const [userCompany, setUserCompany] = useState('')
+
+  React.useEffect(() => {
+    let mounted = true
+    if (mounted) {
+      const da = localStorage.getItem('ghuid')
+      if (da) {
+        const ad = JSON.parse(da)
+        if (ad && ad.roleid && ad.roleid) {
+          setUserRole(ad.roleid)
+        }
+        if (ad && ad.roleid && ad.roleid != 'superadmin') {
+          setCompany(ad.company)
+        }
+      }
+    }
+
+    return () => (mounted = false)
+  }, [])
 
   async function postRegister (body) {
     const getReq = ds.registerService(body)
@@ -83,10 +105,17 @@ function RegisterUser (props) {
     setRole('')
     setIsPassValid(false)
     setPassMsg('')
+    setCompany('')
   }
 
   function onSave () {
-    if (!getUserName || !getUserPassword || !getUserEmail || !getRole) {
+    if (
+      !getUserName ||
+      !getUserPassword ||
+      !getUserEmail ||
+      !getRole ||
+      !getCompany
+    ) {
       dispatch(
         showMessage({
           message: `Please provide proper information`,
@@ -104,7 +133,8 @@ function RegisterUser (props) {
       name: getUserName,
       email: getUserEmail,
       password: getUserPassword,
-      role: getRole
+      role: getRole,
+      company: getCompany
     }
     dispatch(setRegisterLoader(true))
     postRegister(body)
@@ -270,7 +300,7 @@ function RegisterUser (props) {
                       id='demo-simple-select-outlined'
                       label={i18next.t(`navigation:SELROLE`)}
                       value={getRole}
-					  required={true}
+                      required={true}
                       onChange={e => {
                         setRole(e.target.value)
                       }}
@@ -304,18 +334,29 @@ function RegisterUser (props) {
                       id='demo-simple-select-outlined'
                       label={i18next.t(`navigation:SELCOMPANY`)}
                       value={getCompany}
-					  required={true}
+                      required={true}
                       onChange={e => {
                         setCompany(e.target.value)
                       }}
                       // disabled={isEdit}
                     >
-                      <MenuItem key={0} value={'admin'}>
-                        Company A
-                      </MenuItem>
-                      <MenuItem key={1} value={'user'}>
-                        Company B
-                      </MenuItem>
+                      {userRole == 'superadmin'
+                        ? listCompanies &&
+                          listCompanies.length > 0 &&
+                          listCompanies.map((d, key) => {
+                            return (
+                              <MenuItem key={key} value={d.company}>
+                                {d.company}
+                              </MenuItem>
+                            )
+                          })
+                        : [getCompany].map((d, key) => {
+                            return (
+                              <MenuItem key={key} value={d}>
+                                {d}
+                              </MenuItem>
+                            )
+                          })}
                     </Select>
                   </FormControl>
                 </div>

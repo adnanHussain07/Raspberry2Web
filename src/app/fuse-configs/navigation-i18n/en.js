@@ -91,6 +91,7 @@ const locale = {
   ACTION: "ACTION",
   DUSERID: "ID",
   DNAME: "NAME",
+  COMPANY: "COMPANY",
   DDEPT: "DEPARTMENT",
   ROLE: "ROLE",
   EMAIL: "EMAIL",

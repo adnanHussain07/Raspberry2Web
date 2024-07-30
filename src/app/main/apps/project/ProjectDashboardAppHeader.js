@@ -28,9 +28,9 @@ function ProjectDashboardAppHeader(props) {
     menuEl: null,
   });
 
-  useEffect(() => {
-    dispatch(getProjects());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getProjects());
+  // }, [dispatch]);
 
   function handleChangeProject(id) {
     setSelectedProject({
