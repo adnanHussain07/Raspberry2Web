@@ -48,7 +48,7 @@ const navigationConfig = [
         translate: 'USERS',
         type: 'item',
         icon: 'people',
-        url: '/apps/spg/users'
+        url: '/apps/sgp/users'
       },
       {
         id: Menus.ADD,
